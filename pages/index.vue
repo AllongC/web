@@ -9,13 +9,13 @@
     <!-- 搜索框 -->
     <div class="input">
       <div class="tab">
-        <div class="item" v-for="(item,index) in tabs" :key="index">
+        <div class="item" v-for="(item,index) in tabs" :key="index" @click="changeCurrent(index)">
           <span class="mark" :class="{active:index==current}"></span>
           <i :class="{font:index==current}">{{item.name}}</i>
         </div>
       </div>
       <div class="seach">
-        <input type="text" placeholder="输入" />
+        <input type="text" :placeholder="tabs[current].text" />
         <span class="el-icon-search"></span>
       </div>
     </div>
@@ -29,17 +29,31 @@ export default {
       bg: [],
       tabs: [
         {
-          name: "攻略"
+          name: "攻略",
+          text: "搜索城市",
+          path: "/post"
         },
         {
-          name: "酒店"
+          name: "酒店",
+          text: "请输入城市搜索酒店",
+          path: "/hotel"
         },
         {
-          name: "机票"
+          name: "机票",
+          text: "请输入出发地",
+          path: "/air"
         }
       ],
       current: 0
     };
+  },
+  methods: {
+    changeCurrent(index) {
+      if (index == 2) {
+        this.$router.push(this.tabs[index].path);
+      }
+      this.current = index;
+    }
   },
   mounted() {
     this.$axios({
@@ -94,7 +108,7 @@ export default {
           height: 36px;
           position: absolute;
           display: inline-block;
-          background-color: rgba(0, 0, 0, 0.7);
+          background-color: rgba(0, 0, 0, 0.5);
           transform: scale(1.1, 1.3) perspective(0.7em) rotateX(2.9deg);
           transform-origin: bottom left;
         }

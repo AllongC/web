@@ -62,6 +62,7 @@ header {
         color: #409eff;
       }
     }
+    .nuxt-link-active:not(:first-child),
     .nuxt-link-exact-active {
       background-color: #409eff;
       color: white;

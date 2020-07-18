@@ -31,7 +31,8 @@ header {
   border-bottom: 1px solid #e4e4e4;
   box-shadow: 1px 1px 1px black black;
   .container {
-    max-width: 1000px;
+    width: 1000px;
+    min-width: 1000px;
     margin: 0 auto;
   }
   .el-col {

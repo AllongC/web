@@ -9,17 +9,14 @@
     <!-- 搜索框 -->
     <div class="input">
       <div class="tab">
-        <div class="item">
-          <span class="active"></span>
-          <i class="font">攻略</i>
-        </div>
-        <div class="item">
-          <span class="mark"></span>
-          <i>攻略</i>
+        <div class="item" v-for="(item,index) in tabs" :key="index">
+          <span class="mark" :class="{active:index==current}"></span>
+          <i :class="{font:index==current}">{{item.name}}</i>
         </div>
       </div>
       <div class="seach">
         <input type="text" placeholder="输入" />
+        <span class="el-icon-search"></span>
       </div>
     </div>
   </section>
@@ -40,7 +37,8 @@ export default {
         {
           name: "机票"
         }
-      ]
+      ],
+      current: 0
     };
   },
   mounted() {
@@ -82,6 +80,7 @@ export default {
         position: relative;
         width: 91px;
         height: 36px;
+        cursor: pointer;
         i {
           width: 82px;
           height: 36px;
@@ -114,6 +113,7 @@ export default {
       }
     }
     .seach {
+      position: relative;
       input {
         text-indent: 10px;
         width: 100%;
@@ -121,6 +121,12 @@ export default {
         border: none;
         outline: none;
         border-radius: 0px 5px 5px 5px;
+      }
+      .el-icon-search {
+        position: absolute;
+        top: 12px;
+        right: 10px;
+        font-size: 20px;
       }
     }
   }

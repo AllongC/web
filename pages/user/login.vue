@@ -3,18 +3,43 @@
     <div class="container">
       <div class="content">
         <el-row class="tab">
-          <el-col :span="12" class="active tabs">登录</el-col>
-          <el-col :span="12" class="tabs">注册</el-col>
+          <el-col
+            :span="12"
+            class="tabs"
+            v-for="(item,index) in tab"
+            :key="index"
+            :class="{active:index==current}"
+            @click.native="changeCurrent(index)"
+          >{{item.name}}</el-col>
         </el-row>
-        <el-row class="login"></el-row>
-        <el-row class="register"></el-row>
+        <el-row class="register" :class="{none:current==0}"></el-row>
+        <el-row class="login" :class="{none:current==1}"></el-row>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      tab: [
+        {
+          name: "登录"
+        },
+        {
+          name: "注册"
+        }
+      ],
+      current: 0
+    };
+  },
+  methods: {
+    changeCurrent(index) {
+      this.current = index;
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -58,10 +83,12 @@ section {
       background-color: #fff;
     }
     .register {
-      display: none;
       width: 400px;
       height: 440px;
       background-color: #fff;
+    }
+    .none {
+      display: none;
     }
   }
 }

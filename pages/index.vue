@@ -14,6 +14,18 @@ export default {
     return {
       bg: [{ url: "http://157.122.54.189:9095/assets/images/th02.jfif" }]
     };
+  },
+  mounted() {
+    this.$axios({
+      url: "/scenics/banners",
+      method: "get"
+    }).then(res => {
+      const { data } = res.data;
+      this.bg = data.map(item => {
+        item.url = this.$axios.defaults.baseURL + item.url;
+        return item;
+      });
+    });
   }
 };
 </script>

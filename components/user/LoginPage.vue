@@ -33,7 +33,8 @@ export default {
         data: this.form
       }).then(res => {
         const { data } = res;
-        console.log(data);
+        this.$store.commit("user/setUserInfo", data);
+        console.log(this.$store.state.user.userInfo);
       });
     }
   }

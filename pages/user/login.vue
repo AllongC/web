@@ -12,15 +12,19 @@
             @click.native="changeCurrent(index)"
           >{{item.name}}</el-col>
         </el-row>
+        <LoginPage class="login" :class="{none:current==1}" />
         <el-row class="register" :class="{none:current==0}"></el-row>
-        <el-row class="login" :class="{none:current==1}"></el-row>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import LoginPage from "@/components/user/LoginPage";
 export default {
+  components: {
+    LoginPage
+  },
   data() {
     return {
       tab: [

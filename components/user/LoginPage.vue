@@ -3,13 +3,13 @@
     <el-row class="loginPage">
       <el-form ref="form" :model="form">
         <el-form-item>
-          <el-input placeholder="请输入内容"></el-input>
+          <el-input placeholder="用户名/手机" v-model="form.username"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input placeholder="请输入内容"></el-input>
+          <el-input placeholder="密码" type="password" v-model="form.password"></el-input>
         </el-form-item>
         <p>忘记密码</p>
-        <el-button type="primary">登录</el-button>
+        <el-button type="primary" @click="login">登录</el-button>
       </el-form>
     </el-row>
   </div>
@@ -19,8 +19,23 @@
 export default {
   data() {
     return {
-      form: {}
+      form: {
+        username: "",
+        password: ""
+      }
     };
+  },
+  methods: {
+    login() {
+      this.$axios({
+        url: "/accounts/login",
+        method: "post",
+        data: this.form
+      }).then(res => {
+        const { data } = res;
+        console.log(data);
+      });
+    }
   }
 };
 </script>

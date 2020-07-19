@@ -13,7 +13,7 @@
           >{{item.name}}</el-col>
         </el-row>
         <LoginPage class="login" :class="{none:current==1}" />
-        <el-row class="register" :class="{none:current==0}"></el-row>
+        <RegisterPage class="register" :class="{none:current==0}" />
       </div>
     </div>
   </section>
@@ -21,9 +21,11 @@
 
 <script>
 import LoginPage from "@/components/user/LoginPage";
+import RegisterPage from "@/components/user/RegisterPage";
 export default {
   components: {
-    LoginPage
+    LoginPage,
+    RegisterPage
   },
   data() {
     return {
@@ -49,6 +51,7 @@ export default {
 <style lang="less" scoped>
 section {
   height: 700px;
+  width: 100%;
   background: url(http://157.122.54.189:9095/assets/images/th03.jfif) center 0;
   .container {
     position: relative;
@@ -88,7 +91,6 @@ section {
     }
     .register {
       width: 400px;
-      height: 440px;
       background-color: #fff;
     }
     .none {

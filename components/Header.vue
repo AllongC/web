@@ -14,10 +14,13 @@
           <nuxt-link to="/air">国内机票</nuxt-link>
         </el-col>
         <el-col :span="4" class="login">
-          <el-dropdown v-if="userInfo">
+          <el-dropdown v-if="$store.state.user.userInfo.user">
             <span class="el-dropdown-link">
-              <img :src="$axios.defaults.baseURL+userInfo.user.defaultAvatar" alt />
-              {{userInfo.user.nickname}}
+              <img
+                :src="$axios.defaults.baseURL + $store.state.user.userInfo.user.defaultAvatar"
+                alt
+              />
+              <span>{{$store.state.user.userInfo.user.nickname}}</span>
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -33,16 +36,7 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      userInfo: ""
-    };
-  },
-  mounted() {
-    this.userInfo = this.$store.state.user.userInfo;
-  }
-};
+export default {};
 </script>
 
 <style lang="less" scoped>

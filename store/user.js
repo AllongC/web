@@ -8,13 +8,14 @@ export const mutations = {
 }
 export const actions = {
     login({ commit }, data) {
-        this.$axios({
+        return this.$axios({
             url: "/accounts/login",
             method: "post",
             data
         }).then(res => {
             const { data } = res;
             commit("setUserInfo", data);
+            return res
         });
     }
 }

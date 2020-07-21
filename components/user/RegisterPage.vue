@@ -21,7 +21,7 @@
         <el-form-item prop="confirmPwd">
           <el-input v-model="form.confirmPwd" placeholder="确认密码" type="password"></el-input>
         </el-form-item>
-        <el-button type="primary">注册</el-button>
+        <el-button type="primary" @click="sendRegister">注册</el-button>
       </el-form>
     </el-row>
   </div>
@@ -100,6 +100,19 @@ export default {
           this.$message.success("验证码获取成功");
           this.form.captcha = code;
         }
+      });
+    },
+    //注册
+    sendRegister() {
+      const { confirmPwd, ...data } = this.form;
+      this.$store.dispatch("user/register", data).then(res => {
+        this.$confirm("注册成功", "提示", {
+          confirmButtonText: "确定",
+          showCancelButton: false,
+          type: "success"
+        }).then(() => {
+          this.$router.push("/");
+        });
       });
     }
   }

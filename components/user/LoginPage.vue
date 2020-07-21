@@ -45,7 +45,15 @@ export default {
     login() {
       this.$refs.form.validate((valid, res) => {
         if (valid) {
-          this.$store.dispatch("user/login", this.form);
+          this.$store.dispatch("user/login", this.form).then(res => {
+            this.$confirm("登陆成功", "提示", {
+              confirmButtonText: "确定",
+              showCancelButton: false,
+              type: "success"
+            }).then(() => {
+              this.$router.push("/");
+            });
+          });
         }
       });
     }

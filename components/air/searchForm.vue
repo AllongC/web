@@ -13,13 +13,13 @@
     <el-row class="form-content">
       <el-form>
         <el-form-item label="出发城市">
-          <el-input></el-input>
+          <el-autocomplete placeholder="请搜索出发城市"></el-autocomplete>
         </el-form-item>
         <el-form-item label="到达城市">
-          <el-input></el-input>
+          <el-autocomplete placeholder="请搜索到达城市"></el-autocomplete>
         </el-form-item>
         <el-form-item label="出发时间">
-          <el-date-picker type="date" placeholder="选择日期"></el-date-picker>
+          <el-date-picker type="date" placeholder="请选择日期"></el-date-picker>
         </el-form-item>
         <el-button type="primary">
           <i class="el-icon-search"></i>搜索

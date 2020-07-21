@@ -5,13 +5,15 @@
         <el-form-item prop="username">
           <el-input v-model="form.username" placeholder="用户名手机号码"></el-input>
         </el-form-item>
-        <el-form-item prop="nickname">
-          <el-input v-model="form.nickname" placeholder="验证码">
-            <template slot="append">发送验证码</template>
+        <el-form-item prop="captcha">
+          <el-input v-model="form.captcha" placeholder="验证码">
+            <template slot="append">
+              <span @click="sendCaptchas" class="captchas">发送验证码</span>
+            </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="captcha">
-          <el-input v-model="form.captcha" placeholder="昵称"></el-input>
+        <el-form-item prop="nickname">
+          <el-input v-model="form.nickname" placeholder="昵称"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input v-model="form.password" placeholder="密码" type="password"></el-input>
@@ -82,6 +84,24 @@ export default {
         ]
       }
     };
+  },
+  methods: {
+    //获取手机验证码
+    sendCaptchas() {
+      this.$axios({
+        url: "/captchas",
+        method: "post",
+        data: {
+          tel: this.form.username
+        }
+      }).then(res => {
+        const { code } = res.data;
+        if (code) {
+          this.$message.success("验证码获取成功");
+          this.form.captcha = code;
+        }
+      });
+    }
   }
 };
 </script>
@@ -96,6 +116,9 @@ export default {
   .el-button {
     margin: 20px 0px;
     width: 100%;
+  }
+  .captchas {
+    cursor: pointer;
   }
 }
 </style>

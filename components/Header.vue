@@ -25,7 +25,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人中心</el-dropdown-item>
-              <el-dropdown-item>退出</el-dropdown-item>
+              <el-dropdown-item @click.native="quitLogin">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <nuxt-link to="/user/login" v-else>登录 / 注册</nuxt-link>
@@ -36,7 +36,20 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    quitLogin() {
+      this.$store.commit("user/setUserInfo", {});
+      this.$confirm("退出登陆成功", "提示", {
+        confirmButtonText: "确定",
+        showCancelButton: false,
+        type: "success"
+      }).then(() => {
+        this.$router.push("/user/login");
+      });
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>

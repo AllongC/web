@@ -1,23 +1,23 @@
 <template>
   <div>
     <el-row class="register">
-      <el-form :model="form">
-        <el-form-item>
-          <el-input placeholder="用户名手机号码"></el-input>
+      <el-form :model="form" :rules="rules">
+        <el-form-item prop="username">
+          <el-input v-model="form.username" placeholder="用户名手机号码"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="验证码">
+        <el-form-item prop="nickname">
+          <el-input v-model="form.nickname" placeholder="验证码">
             <template slot="append">发送验证码</template>
           </el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="昵称"></el-input>
+        <el-form-item prop="captcha">
+          <el-input v-model="form.captcha" placeholder="昵称"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="密码" type="paswword"></el-input>
+        <el-form-item prop="password">
+          <el-input v-model="form.password" placeholder="密码" type="password"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="确认密码" type="paswword"></el-input>
+        <el-form-item prop="confirmPwd">
+          <el-input v-model="form.confirmPwd" placeholder="确认密码" type="password"></el-input>
         </el-form-item>
         <el-button type="primary">注册</el-button>
       </el-form>
@@ -28,8 +28,59 @@
 <script>
 export default {
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("确认密码不能为空"));
+      } else if (this.form.password !== value) {
+        callback(new Error("两次输入密码不正确"));
+      } else {
+        callback();
+      }
+    };
     return {
-      form: {}
+      form: {
+        username: "",
+        nickname: "",
+        captcha: "",
+        password: "",
+        confirmPwd: ""
+      },
+      rules: {
+        username: [
+          {
+            required: true,
+            message: "用户名不能为空",
+            tigger: "blur"
+          }
+        ],
+        nickname: [
+          {
+            required: true,
+            message: "昵称不能为空",
+            tigger: "blur"
+          }
+        ],
+        captcha: [
+          {
+            required: true,
+            message: "验证码不能为空",
+            tigger: "blur"
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: "密码不能为空",
+            tigger: "blur"
+          }
+        ],
+        confirmPwd: [
+          {
+            validator: validatePass,
+            tigger: "blur"
+          }
+        ]
+      }
     };
   }
 };

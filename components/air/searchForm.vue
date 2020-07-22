@@ -11,17 +11,34 @@
       </el-col>
     </el-row>
     <el-row class="form-content">
-      <el-form>
+      <el-form :model="form">
         <el-form-item label="出发城市">
-          <el-autocomplete placeholder="请搜索出发城市"></el-autocomplete>
+          <el-autocomplete
+            placeholder="请搜索出发城市"
+            :fetch-suggestions="queryDepartCity"
+            :trigger-on-focus="false"
+            v-model="form.departCity"
+            @select="handleSelect"
+          ></el-autocomplete>
         </el-form-item>
         <el-form-item label="到达城市">
-          <el-autocomplete placeholder="请搜索到达城市"></el-autocomplete>
+          <el-autocomplete
+            placeholder="请搜索到达城市"
+            :fetch-suggestions="queryDestCity"
+            :trigger-on-focus="false"
+            v-model="form.destCity"
+            @select="handleSelect"
+          ></el-autocomplete>
         </el-form-item>
         <el-form-item label="出发时间">
-          <el-date-picker type="date" placeholder="请选择日期"></el-date-picker>
+          <el-date-picker
+            type="date"
+            placeholder="请选择日期"
+            v-model="form.departDate"
+            :picker-options="pickerOptions"
+          ></el-date-picker>
         </el-form-item>
-        <el-button type="primary">
+        <el-button type="primary" @click="sendSearch">
           <i class="el-icon-search"></i>搜索
         </el-button>
         <div class="change">
@@ -33,7 +50,54 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now();
+        }
+      },
+      form: {
+        departCity: "",
+        departCode: "",
+        destCity: "",
+        destCode: "",
+        departDate: ""
+      }
+    };
+  },
+  methods: {
+    //搜索机票
+    sendSearch() {
+      console.log(this.form);
+    },
+    //出发城市建议
+    queryDepartCity(str, callback) {
+      this.$axios({
+        url: "/airs/city",
+        method: "get",
+        params: {
+          name: str
+        }
+      }).then(res => {
+        const { data } = res.data;
+        const city = data.map(item => {
+          return {
+            value: item.name,
+            code: item.sort
+          };
+        });
+        callback(city);
+      });
+    },
+    //到达城市建议
+    queryDestCity(str, callback) {
+      callback([{ value: "上海" }, { value: "广州" }]);
+    },
+    handleSelect() {}
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -66,7 +130,7 @@ export default {};
     .el-form-item {
       width: 290px;
     }
-    .el-input {
+    /deep/ .el-input__inner {
       width: 220px;
     }
     .el-button {

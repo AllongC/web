@@ -18,7 +18,7 @@
             :fetch-suggestions="queryDepartCity"
             :trigger-on-focus="false"
             v-model="form.departCity"
-            @select="handleSelect"
+            @select="selectDepartCity"
           ></el-autocomplete>
         </el-form-item>
         <el-form-item label="到达城市">
@@ -27,7 +27,7 @@
             :fetch-suggestions="queryDestCity"
             :trigger-on-focus="false"
             v-model="form.destCity"
-            @select="handleSelect"
+            @select="selectDestCity"
           ></el-autocomplete>
         </el-form-item>
         <el-form-item label="出发时间">
@@ -93,9 +93,29 @@ export default {
     },
     //到达城市建议
     queryDestCity(str, callback) {
-      callback([{ value: "上海" }, { value: "广州" }]);
+      this.$axios({
+        url: "/airs/city",
+        method: "get",
+        params: {
+          name: str
+        }
+      }).then(res => {
+        const { data } = res.data;
+        const city = data.map(item => {
+          return {
+            value: item.name,
+            code: item.sort
+          };
+        });
+        callback(city);
+      });
     },
-    handleSelect() {}
+    selectDestCity(value) {
+      this.form.destCode = value.code;
+    },
+    selectDepartCity(value) {
+      this.form.departCode = value.code;
+    }
   }
 };
 </script>

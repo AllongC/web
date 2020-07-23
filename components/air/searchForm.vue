@@ -74,7 +74,15 @@ export default {
   methods: {
     //搜索机票
     sendSearch() {
-      console.log(this.form);
+      const query = {
+        ...this.form,
+        departCity: this.form.departCity.replace(/市$/, ""),
+        destCity: this.form.destCity.replace(/市$/, "")
+      };
+      this.$router.push({
+        path: "/air/flights",
+        query
+      });
     },
     //时间触发事件
     changeDate(value) {

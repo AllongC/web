@@ -1,7 +1,9 @@
 <template>
   <section class="container">
     <el-row>
-      <el-col class="flights"></el-col>
+      <el-col class="flights">
+        <flightsFilters />
+      </el-col>
       <el-col class="aside">
         <flightsAside />
       </el-col>
@@ -11,9 +13,11 @@
 
 <script>
 import flightsAside from "@/components/air/flightsAside";
+import flightsFilters from "@/components/air/flightsFilters";
 export default {
   components: {
-    flightsAside
+    flightsAside,
+    flightsFilters
   }
 };
 </script>
@@ -22,16 +26,18 @@ export default {
 .container {
   width: 1000px;
   min-width: 1000px;
-  margin: 25px auto;
+  margin: 0 auto;
   .el-col {
     height: 1000px;
   }
   .flights {
     width: 745px;
+    margin-top: 25px;
   }
   .aside {
     margin-left: 17px;
     width: 238px;
+    margin-top: 25px;
   }
 }
 </style>

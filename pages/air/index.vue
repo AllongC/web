@@ -33,32 +33,11 @@
       </div>
       <div class="special-bottom">
         <el-row>
-          <el-col>
-            <img src="http://157.122.54.189:9095/assets/images/tj01.jpg" alt />
+          <el-col v-for="(item,index) in data" :key="index">
+            <img :src="$axios.defaults.baseURL+item.cover" alt />
             <p>
-              <span>广州-上海</span>
-              <span class="right">￥790</span>
-            </p>
-          </el-col>
-          <el-col>
-            <img src="http://157.122.54.189:9095/assets/images/tj01.jpg" alt />
-            <p>
-              <span>广州-上海</span>
-              <span class="right">￥790</span>
-            </p>
-          </el-col>
-          <el-col>
-            <img src="http://157.122.54.189:9095/assets/images/tj01.jpg" alt />
-            <p>
-              <span>广州-上海</span>
-              <span class="right">￥790</span>
-            </p>
-          </el-col>
-          <el-col>
-            <img src="http://157.122.54.189:9095/assets/images/tj01.jpg" alt />
-            <p>
-              <span class="left">广州-上海</span>
-              <span class="right">￥790</span>
+              <span>{{item.departCity}}-{{item.destCity}}</span>
+              <span class="right">￥{{item.price}}</span>
             </p>
           </el-col>
         </el-row>
@@ -70,8 +49,22 @@
 <script>
 import searchForm from "@/components/air/searchForm";
 export default {
+  data() {
+    return {
+      data: null
+    };
+  },
   components: {
     searchForm
+  },
+  mounted() {
+    this.$axios({
+      url: "/airs/sale",
+      method: "get"
+    }).then(res => {
+      const { data } = res.data;
+      this.data = data;
+    });
   }
 };
 </script>
@@ -179,6 +172,7 @@ export default {
           background-color: rgba(0, 0, 0, 0.5);
           color: #fff;
           box-sizing: border-box;
+          font-size: 14px;
           .left {
             float: left;
           }

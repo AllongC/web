@@ -18,6 +18,7 @@
             :fetch-suggestions="queryDepartCity"
             :trigger-on-focus="false"
             v-model="form.departCity"
+            :highlight-first-item="true"
             @select="selectDepartCity"
           ></el-autocomplete>
         </el-form-item>
@@ -27,6 +28,7 @@
             :fetch-suggestions="queryDestCity"
             :trigger-on-focus="false"
             v-model="form.destCity"
+            :highlight-first-item="true"
             @select="selectDestCity"
           ></el-autocomplete>
         </el-form-item>
@@ -36,6 +38,7 @@
             placeholder="请选择日期"
             v-model="form.departDate"
             :picker-options="pickerOptions"
+            @change="changeDate"
           ></el-date-picker>
         </el-form-item>
         <el-button type="primary" @click="sendSearch">
@@ -50,6 +53,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   data() {
     return {
@@ -72,9 +76,13 @@ export default {
     sendSearch() {
       console.log(this.form);
     },
-    //出发城市建议
-    queryDepartCity(str, callback) {
-      this.$axios({
+    //时间触发事件
+    changeDate(value) {
+      this.form.departDate = moment(value).format("YYYY-MM-DD");
+    },
+    //统一搜索
+    searchCity(str) {
+      return this.$axios({
         url: "/airs/city",
         method: "get",
         params: {
@@ -84,35 +92,36 @@ export default {
         const { data } = res.data;
         const city = data.map(item => {
           return {
-            value: item.name,
+            value: item.name.replace(/市$/, ""),
             code: item.sort
           };
         });
+        return city;
+      });
+    },
+    //出发城市建议
+    queryDepartCity(str, callback) {
+      this.searchCity(str).then(city => {
+        if (city.length > 0) {
+          this.form.departCode = city[0].code;
+        }
         callback(city);
       });
     },
     //到达城市建议
     queryDestCity(str, callback) {
-      this.$axios({
-        url: "/airs/city",
-        method: "get",
-        params: {
-          name: str
+      this.searchCity(str).then(city => {
+        if (city.length > 0) {
+          this.form.destCode = city[0].code;
         }
-      }).then(res => {
-        const { data } = res.data;
-        const city = data.map(item => {
-          return {
-            value: item.name,
-            code: item.sort
-          };
-        });
         callback(city);
       });
     },
+    //获取出发城市的编号
     selectDestCity(value) {
       this.form.destCode = value.code;
     },
+    //获取到达城市的编号
     selectDepartCity(value) {
       this.form.departCode = value.code;
     }

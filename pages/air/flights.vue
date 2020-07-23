@@ -3,6 +3,7 @@
     <el-row>
       <el-col class="flights">
         <flightsFilters />
+        <flightsListHead />
       </el-col>
       <el-col class="aside">
         <flightsAside />
@@ -14,10 +15,12 @@
 <script>
 import flightsAside from "@/components/air/flightsAside";
 import flightsFilters from "@/components/air/flightsFilters";
+import flightsListHead from "@/components/air/flightsListHead";
 export default {
   components: {
     flightsAside,
-    flightsFilters
+    flightsFilters,
+    flightsListHead
   }
 };
 </script>

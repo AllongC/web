@@ -32,8 +32,8 @@
         <h4>特价机票</h4>
       </div>
       <div class="special-bottom">
-        <el-row>
-          <el-col v-for="(item,index) in data" :key="index">
+        <el-row v-if="data">
+          <el-col v-for="(item,index) in data" :key="index" @click.native="searchFlights(index)">
             <img :src="$axios.defaults.baseURL+item.cover" alt />
             <p>
               <span>{{item.departCity}}-{{item.destCity}}</span>
@@ -57,7 +57,17 @@ export default {
   components: {
     searchForm
   },
+  methods: {
+    searchFlights(index) {
+      const { price, cover, ...query } = this.data[0];
+      this.$router.push({
+        path: "/air/flights",
+        query
+      });
+    }
+  },
   mounted() {
+    //获取特价机票
     this.$axios({
       url: "/airs/sale",
       method: "get"
@@ -153,6 +163,7 @@ export default {
       padding: 15px;
       box-sizing: border-box;
       .el-col {
+        cursor: pointer;
         position: relative;
         width: 225px;
         height: 150px;
